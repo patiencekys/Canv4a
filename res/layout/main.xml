@@ -31,9 +31,9 @@
             android:layout_weight="1"
             android:text="@string/funny"
             android:textAppearance="?android:attr/textAppearanceMedium" />
-
+
         <Button
-            android:id="@+id/button1"
+            android:id="@+id/bfunny_go"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"

@@ -6,5 +6,6 @@
     <string name="channels">Channels</string>
     <string name="funny">funny</string>
     <string name="go">Go</string>
+    <string name="threadview">Thread</string>
 
 </resources>

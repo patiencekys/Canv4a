@@ -33,6 +33,8 @@ public class ThreadViewActivity extends Activity {
 	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+        setContentView(R.layout.thread);
 		try {
 			HttpResponse getResponse = clt.execute(new HttpGet(url));
 			Log.d("API",EntityUtils.toString(getResponse.getEntity()));
