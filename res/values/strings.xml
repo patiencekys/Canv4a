@@ -3,5 +3,8 @@
 
     <string name="hello">Hello World, Canv4aActivity!</string>
     <string name="app_name">Canv4a</string>
+    <string name="channels">Channels</string>
+    <string name="funny">funny</string>
+    <string name="go">Go</string>
 
 </resources>
