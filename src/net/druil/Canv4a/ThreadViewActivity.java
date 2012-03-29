@@ -3,8 +3,6 @@
  */
 package net.druil.Canv4a;
 
-import java.io.IOException;
-
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -14,6 +12,7 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.TextView;
 
 /**
  * @author Paul
@@ -23,7 +22,7 @@ public class ThreadViewActivity extends Activity {
 
 	private DefaultHttpClient clt = new DefaultHttpClient();
 	private JSONObject res;
-	private String url = new String("http://canv.as/public_api/posts/pt3n8");
+	private String baseURL = "http://canv.as/public_api/groups/";
 	
 	/* (non-Javadoc)
 	 * @see android.app.Activity#onCreate(android.os.Bundle)
@@ -32,18 +31,42 @@ public class ThreadViewActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
         setContentView(R.layout.thread);
+        Log.d("API", "Trying to get CHANNEL from bundle...");
+        String url = baseURL+getIntent().getExtras().getString("CHANNEL");
+        Log.d("API", url);
         try {
 			HttpResponse getResponse = clt.execute(new HttpGet(url));
-			Log.d("API",EntityUtils.toString(getResponse.getEntity()));
-			res = new JSONObject(EntityUtils.toString(clt.execute(new HttpGet(url)).getEntity()));
-			Log.d("API",res.getString("category"));
+			String resp = EntityUtils.toString(getResponse.getEntity());
+			//Log.d("API",resp);
+			res = new JSONObject(resp);
+			JSONObject posts = res.getJSONObject("posts");
+			Log.d("API","olol");
+			Log.d("API","posts:"+posts.toString());
+			Log.d("API","olol");
+			TextView g = (TextView) findViewById(R.id.Logresult);
+			g.setText(resp);
         }
         catch(Exception e){
+        	e.printStackTrace();
         	Log.d("API", "Exception lors de la recherche des flux");
         }
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 	}
+	
+	protected void createPostContainer(){
+		/*
+		 * Must create: 
+		 * {{
+		 *    linear view for each post
+		 *    medium text view for each post title
+		 *    imageview for each post
+		 *    small view for each author's post
+		 *    small view for each post comment
+		 * }}
+		 */
+	}
+	
 	/* (non-Javadoc)
 	 * @see android.app.Activity#onDestroy()
 	 */
