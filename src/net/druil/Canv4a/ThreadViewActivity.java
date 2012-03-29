@@ -33,22 +33,22 @@ public class ThreadViewActivity extends Activity {
         setContentView(R.layout.thread);
         Log.d("API", "Trying to get CHANNEL from bundle...");
         String url = baseURL+getIntent().getExtras().getString("CHANNEL");
-        Log.d("API", url);
+        Log.d("API","OK "+ url);
         try {
 			HttpResponse getResponse = clt.execute(new HttpGet(url));
 			String resp = EntityUtils.toString(getResponse.getEntity());
 			//Log.d("API",resp);
 			res = new JSONObject(resp);
 			JSONObject posts = res.getJSONObject("posts");
-			Log.d("API","olol");
+			Log.d("API","================");
 			Log.d("API","posts:"+posts.toString());
-			Log.d("API","olol");
+			Log.d("API","================");
 			TextView g = (TextView) findViewById(R.id.Logresult);
 			g.setText(resp);
         }
         catch(Exception e){
         	e.printStackTrace();
-        	Log.d("API", "Exception lors de la recherche des flux");
+        	Log.w("API", "Exception lors de la recherche des flux");
         }
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
