@@ -21,6 +21,8 @@ public class CanvasPost {
 	protected String author_name;
 	protected int parent_comment_id;
 	protected int parent_comment_reply_count;
+	protected String img_tiny_url;
+	protected String img_orig_url;
 	
 	public CanvasPost(){
 		api_url = null;
@@ -33,6 +35,8 @@ public class CanvasPost {
 		author_name = null;
 		parent_comment_id = (Integer) null;
 		parent_comment_reply_count = (Integer) null;
+		img_tiny_url = null;
+		img_orig_url = null;
 	}
 	
 	public CanvasPost(JSONObject j){
@@ -48,6 +52,25 @@ public class CanvasPost {
 			author_name = new String(j.getString("author_name"));
 			parent_comment_id = new Integer(j.getInt("parent_comment_id"));
 			parent_comment_reply_count = new Integer(j.getInt("parent_comment_reply_count"));
+			Log.d("CanvasPost","Getting images urls...");
+			
+			// These two instructions are gross.
+			img_tiny_url = new String(j.getString(
+					(String) (
+							(JSONObject) (
+									(JSONObject) j.get("reply_content")
+									).get("small_column")
+							).get("name")
+					)
+			);
+			img_orig_url = new String(j.getString(
+					(String) (
+							(JSONObject) (
+									(JSONObject) j.get("reply_content")
+									).get("original")
+							).get("name")
+					)
+			);
 			Log.d("CanvasPost", "Construction successfull");
 		}
 		catch(JSONException e){
