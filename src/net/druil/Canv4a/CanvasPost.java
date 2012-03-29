@@ -11,18 +11,18 @@ import android.util.Log;
  *
  */
 public class CanvasPost {
-	protected String api_url;
-	protected String url;
-	protected int timestamp;
-	protected String thread_op_id;
-	protected String id;
-	protected String category;
-	protected String title;
-	protected String author_name;
-	protected int parent_comment_id;
-	protected int parent_comment_reply_count;
-	protected String img_tiny_url;
-	protected String img_orig_url;
+	public String api_url;
+	public String url;
+	public int timestamp;
+	public String thread_op_id;
+	public String id;
+	public String category;
+	public String title;
+	public String author_name;
+	public int parent_comment_id;
+	public int parent_comment_reply_count;
+	public String img_tiny_url;
+	public String img_orig_url;
 	
 	public CanvasPost(){
 		api_url = null;
@@ -56,21 +56,21 @@ public class CanvasPost {
 			
 			// These two instructions are gross.
 			img_tiny_url = new String(j.getString(
-					(String) (
-							(JSONObject) (
-									(JSONObject) j.get("reply_content")
+					((JSONObject)
+							((JSONObject) 
+									j.get("reply_content")
 									).get("small_column")
-							).get("name")
-					)
-			);
+									).get("name").toString()
+							)
+					);
 			img_orig_url = new String(j.getString(
-					(String) (
-							(JSONObject) (
-									(JSONObject) j.get("reply_content")
-									).get("original")
-							).get("name")
-					)
-			);
+					((JSONObject)
+							((JSONObject) 
+										j.get("reply_content")
+										).get("original")
+										).get("name").toString()
+							)
+					);
 			Log.d("CanvasPost", "Construction successfull");
 		}
 		catch(JSONException e){
