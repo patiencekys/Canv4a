@@ -7,6 +7,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
@@ -37,14 +38,19 @@ public class ThreadViewActivity extends Activity {
         try {
 			HttpResponse getResponse = clt.execute(new HttpGet(url));
 			String resp = EntityUtils.toString(getResponse.getEntity());
-			//Log.d("API",resp);
 			res = new JSONObject(resp);
-			JSONObject posts = res.getJSONObject("posts");
-			Log.d("API","================");
-			Log.d("API","posts:"+posts.toString());
-			Log.d("API","================");
-			TextView g = (TextView) findViewById(R.id.Logresult);
-			g.setText(resp);
+			try{
+				JSONObject posts = new JSONObject(res.getJSONArray("posts").toString());
+				Log.d("API","================");
+				Log.d("API","posts:"+posts.toString());
+				Log.d("API","================");
+				TextView g = (TextView) findViewById(R.id.Logresult);
+				g.setText(posts.toString());
+			}
+			catch(JSONException e){
+				Log.w("API","JSONException");
+				Log.w("API",e.getMessage());
+			}
         }
         catch(Exception e){
         	e.printStackTrace();
@@ -65,6 +71,13 @@ public class ThreadViewActivity extends Activity {
 		 *    small view for each post comment
 		 * }}
 		 */
+	}
+	
+	protected String[] getPostList(JSONObject j){
+		/*
+		 * must return a post list in a thread.
+		 */
+		return null;
 	}
 	
 	/* (non-Javadoc)
