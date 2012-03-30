@@ -130,25 +130,27 @@ public class GroupViewActivity extends Activity {
 				 */
 				final CanvasPost p = posts.get(i);
 				Log.v("DISPLAY", "Trying to set title...");
-				if(p.title.equals("")){
+				if(p.title!= null){
 					try{
 						Log.d("DISPLAY", "Creating TextView...");
 						TextView titlev = new TextView(this);
-						Log.d("DISPLAY", "setting text: "+p.title);
+						Log.d("DISPLAY", "setting title text: "+p.title);
 						titlev.setText(p.title);
 						Log.d("DISPLAY", "Settings text size to 20...");
 						titlev.setTextSize(20);
 						Log.d("DISPLAY", "Settings text color to BLACK...");
 						titlev.setTextColor(Color.BLACK);
-						Log.d("DISPLAY","Adding viewto linear layout");
+						Log.d("DISPLAY","Adding view to linear layout");
 						lv.addView(titlev);
 					}
 					catch(Exception e){
 						e.printStackTrace();
 					}
 				}
+				else
+					Log.i("TITLE", "p.title is null. posturl: "+p.url);
 				Log.v("DISPLAY", "Trying to set image...");
-				if(true){
+				if(p.urls.stream != null){
 					Log.v("DISPLAY", "Post url is defined");
 					URL url = new URL(p.urls.stream.name);
 					Log.d("DISPLAY", "Getting URL...");
@@ -176,6 +178,24 @@ public class GroupViewActivity extends Activity {
 				}
 				else
 					Log.i("IMG","imgurl is null. posturl: "+p.url);
+				
+				if(p.caption!=null){
+					try{
+						Log.d("DISPLAY", "Creating TextView...");
+						TextView titlev = new TextView(this);
+						Log.d("DISPLAY", "setting caption text: "+p.title);
+						titlev.setText(p.title);
+						Log.d("DISPLAY", "Settings text size to 20...");
+						titlev.setTextSize(10);
+						Log.d("DISPLAY", "Settings text color to BLACK...");
+						titlev.setTextColor(Color.BLACK);
+						Log.d("DISPLAY","Adding view to linear layout");
+						lv.addView(titlev);
+					}
+					catch(Exception e){
+						e.printStackTrace();
+					}
+				}
 
 				//=====================
 			}

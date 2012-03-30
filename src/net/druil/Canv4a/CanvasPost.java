@@ -33,7 +33,7 @@ public class CanvasPost {
 			public img(int h, int w, String name){
 				this.h = h;
 				this.w = w;
-				this.name = "http://canv.as/ugc/"+name;
+				this.name = Canv4aActivity.https2http(name);
 				Log.d("img", "name: "+this.name);
 			}
 		}
@@ -44,17 +44,17 @@ public class CanvasPost {
 				this.orig = new img(
 						j.getJSONObject("original").getInt("height"),
 						j.getJSONObject("original").getInt("width"),
-						j.getJSONObject("original").getString("name")
+						j.getJSONObject("original").getString("url")
 						);
 				this.small = new img(
 						j.getJSONObject("small_column").getInt("height"),
 						j.getJSONObject("small_column").getInt("width"),
-						j.getJSONObject("small_column").getString("name")
+						j.getJSONObject("small_column").getString("url")
 						);
 				this.stream = new img(
 						j.getJSONObject("stream").getInt("height"),
 						j.getJSONObject("stream").getInt("width"),
-						j.getJSONObject("stream").getString("name")
+						j.getJSONObject("stream").getString("url")
 						);
 			}
 			catch(JSONException e){
@@ -96,6 +96,7 @@ public class CanvasPost {
 	public String author_name;
 	public int parent_comment_id;
 	public int parent_comment_reply_count;
+	public String caption;
 	public ImgURLs urls;
 	public LinkedList<Reply> replies;
 	
@@ -110,6 +111,7 @@ public class CanvasPost {
 		author_name = null;
 		parent_comment_id = (Integer) null;
 		parent_comment_reply_count = (Integer) null;
+		caption = null;
 		urls = null;
 		replies = new LinkedList<Reply>();
 	}
@@ -126,6 +128,7 @@ public class CanvasPost {
 			Log.d("CanvasPost", "post title = "+j.getString("title"));
 			title = new String(j.getString("title"));
 			author_name = new String(j.getString("author_name"));
+			caption = new String(j.getString("caption"));
 			Log.d("CanvasPost","Getting images urls...");
 			
 			// These two instructions are gross.
