@@ -19,6 +19,8 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 public class GroupViewActivity extends Activity {
 	public LinkedList<CanvasPost> posts;
@@ -67,7 +69,7 @@ public class GroupViewActivity extends Activity {
 					}
 				}
 				Log.v("CORE", "Trying to display one item");
-				displayOne(0);
+				display();
 			} catch (ClientProtocolException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -85,22 +87,67 @@ public class GroupViewActivity extends Activity {
 	
 	public void display(){
 		// code to display all elements in this.posts
+		for(int i=0; i<posts.size(); i++){
+			try {
+				/*
+				 * Must create: 
+				 * {{
+				 *    linear view for each post
+				 *    medium text view for each post title
+				 *    imageview for each post
+				 *    small view for each author's post
+				 *    small view for each post comment
+				 * }}
+				 */
+				CanvasPost p = posts.get(0); //TODO: Correct to accept i, removed for testing
+				URL url = new URL("http://canv.as/ugc/"+p.urls.stream.name);
+				Log.d("DISPLAY", "Getting URL...");
+				InputStream content = (InputStream)url.getContent();
+				Log.d("DISPLAY", "Creating Drawable from InputStream...");
+				Drawable d = Drawable.createFromStream(content , "src");
+				LinearLayout lv = new LinearLayout(this);
+				if(p.title != ""){
+					TextView titlev = new TextView(this);
+					lv.addView(titlev);
+				}
+				ImageView im = new ImageView(this);
+				lv.addView(im);
+				//=====================
+				ImageView img = (ImageView) findViewById(R.id.postImage);
+				img.setMinimumHeight(p.urls.stream.h);
+				img.setMinimumWidth(p.urls.stream.w);
+				Log.d("DISPLAY", "Setting Image...");
+				img.setImageDrawable(d);
+			}
+			catch(Exception e){
+				Log.e("DISPLAY", "Error");
+			}
+		}
 	}
 	
 	public void displayOne(int i){
 		// displays only one element
 		Log.d("CORE","Trying to display post#"+i);
 		CanvasPost p = posts.get(i);
-		Log.d("DISPLAY", "displayOne: p= "+"http://canv.as"+p.api_url);
+		Log.d("DISPLAY", "displayOne: p= "+"http://canv.as/ugc/"+p.urls.small);
 		try {
-			URL url = new URL("http://canv.as"+p.api_url);
+			URL url = new URL("http://canv.as/ugc/"+p.urls.stream.name);
+			Log.d("DISPLAY", "Getting URL...");
 			InputStream content = (InputStream)url.getContent();
+			Log.d("DISPLAY", "Creating Drawable from InputStream...");
 			Drawable d = Drawable.createFromStream(content , "src");
 			ImageView img = (ImageView) findViewById(R.id.postImage);
-			img.setBackgroundDrawable(d);
+			img.setMinimumHeight(p.urls.stream.h);
+			img.setMinimumWidth(p.urls.stream.w);
+			Log.d("DISPLAY", "Setting Image...");
+			img.setImageDrawable(d);
 		}
 		catch(Exception e){
 			Log.e("IMG","Exception: "+e.getMessage());
 		}
+	}
+	public void generateWidgets(){
+		
+		LinearLayout lv = new LinearLayout(this);
 	}
 }

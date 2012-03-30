@@ -21,19 +21,44 @@ public class CanvasPost {
 	 *
 	 */
 	public class ImgURLs { 
-		public String small; //to display little previews in thread view
-		public String orig; // to display if the user wants to get full image
+		public img small;  // to display little previews in thread view
+		public img stream;// original canv.as size
+		public img orig; // to display if the user wants to get full image
 		
-		public ImgURLs(){
-			small = null;
-			orig = null;
+		public class img {
+			public int h;
+			public int w;
+			public String name;
+			
+			public img(int h, int w, String name){
+				this.h = h;
+				this.w = w;
+				this.name = name;
+			}
 		}
 		
-		public ImgURLs(String s, String orig){
-			Log.d("ImgURLs","Getting small image");
-			this.small = s;
-			Log.d("ImgURLs","Getting original image");
-			this.orig = orig;
+		public ImgURLs(JSONObject j){
+			// will generate from json directly instead
+			try{
+				this.orig = new img(
+						j.getJSONObject("original").getInt("height"),
+						j.getJSONObject("original").getInt("width"),
+						j.getJSONObject("original").getString("name")
+						);
+				this.small = new img(
+						j.getJSONObject("small_column").getInt("height"),
+						j.getJSONObject("small_column").getInt("width"),
+						j.getJSONObject("small_column").getString("name")
+						);
+				this.stream = new img(
+						j.getJSONObject("stream").getInt("height"),
+						j.getJSONObject("stream").getInt("width"),
+						j.getJSONObject("stream").getString("name")
+						);
+			}
+			catch(JSONException e){
+				
+			}
 		}
 	}
 	
@@ -84,7 +109,7 @@ public class CanvasPost {
 		author_name = null;
 		parent_comment_id = (Integer) null;
 		parent_comment_reply_count = (Integer) null;
-		urls = new ImgURLs();
+		urls = null;
 		replies = new LinkedList<Reply>();
 	}
 	
@@ -102,10 +127,7 @@ public class CanvasPost {
 			Log.d("CanvasPost","Getting images urls...");
 			
 			// These two instructions are gross.
-			urls = new ImgURLs(
-					j.getJSONObject("reply_content").getJSONObject("small_column").getString("name"),
-					j.getJSONObject("reply_content").getJSONObject("original").getString("name")
-					);
+			urls = new ImgURLs(j.getJSONObject("reply_content"));
 			Log.d("CanvasPost", "Getting Replies...");
 			replies = new LinkedList<Reply>();
 			for(int i=0; i<j.getJSONArray("replies").length();i++) {
