@@ -30,7 +30,9 @@ public class CanvasPost {
 		}
 		
 		public ImgURLs(String s, String orig){
+			Log.d("ImgURLs","Getting small image");
 			this.small = s;
+			Log.d("ImgURLs","Getting original image");
 			this.orig = orig;
 		}
 	}
@@ -97,15 +99,14 @@ public class CanvasPost {
 			category = new String(j.getString("category"));
 			title = new String(j.getString("title"));
 			author_name = new String(j.getString("author_name"));
-			parent_comment_id = new Integer(j.getInt("parent_comment_id"));
-			parent_comment_reply_count = new Integer(j.getInt("parent_comment_reply_count"));
 			Log.d("CanvasPost","Getting images urls...");
 			
 			// These two instructions are gross.
 			urls = new ImgURLs(
-					j.getString(((JSONObject)((JSONObject) j.get("reply_content")).get("small_column")).get("name").toString()),
-					j.getString(((JSONObject)((JSONObject) j.get("reply_content")).get("original")).get("name").toString())
+					j.getJSONObject("reply_content").getJSONObject("small_column").getString("name"),
+					j.getJSONObject("reply_content").getJSONObject("original").getString("name")
 					);
+			Log.d("CanvasPost", "Getting Replies...");
 			replies = new LinkedList<Reply>();
 			for(int i=0; i<j.getJSONArray("replies").length();i++) {
 				JSONObject elem = j.getJSONArray("replies").getJSONObject(i); 
@@ -121,7 +122,7 @@ public class CanvasPost {
 			Log.d("CanvasPost", "Construction successfull");
 		}
 		catch(JSONException e){
-			Log.e("CanvasPost","JSONException"+e.getMessage());
+			Log.e("CanvasPost","JSONException: "+e.getMessage());
 		}
 	}
 }

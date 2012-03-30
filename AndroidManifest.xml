@@ -20,6 +20,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ThreadViewActivity"></activity>
+        <activity android:name=".GroupViewActivity" android:permission="android.permission.INTERNET"></activity>
     </application>
 
 </manifest>
