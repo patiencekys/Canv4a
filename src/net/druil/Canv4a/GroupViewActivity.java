@@ -20,6 +20,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 public class GroupViewActivity extends Activity {
@@ -68,7 +69,7 @@ public class GroupViewActivity extends Activity {
 						e.printStackTrace();
 					}
 				}
-				Log.v("CORE", "Trying to display one item");
+				Log.v("CORE", "Trying to display items");
 				display();
 			} catch (ClientProtocolException e) {
 				// TODO Auto-generated catch block
@@ -87,6 +88,14 @@ public class GroupViewActivity extends Activity {
 	
 	public void display(){
 		// code to display all elements in this.posts
+		Log.d("DISPLAY", "Getting Scrollview...");
+		ScrollView l = new ScrollView(this);
+		Log.d("LAYOUT", "creating LinearLayout...");
+		LinearLayout lv = new LinearLayout(this);
+		Log.d("DISPLAY", "Setting LinearLayout orientation...");
+		lv.setOrientation(LinearLayout.VERTICAL);
+		Log.d("DISPLAY", "Adding LinearLayout to ScrollView.....");
+		l.addView(lv);
 		for(int i=0; i<posts.size(); i++){
 			try {
 				/*
@@ -99,30 +108,35 @@ public class GroupViewActivity extends Activity {
 				 *    small view for each post comment
 				 * }}
 				 */
-				CanvasPost p = posts.get(0); //TODO: Correct to accept i, removed for testing
+				CanvasPost p = posts.get(i);
 				URL url = new URL("http://canv.as/ugc/"+p.urls.stream.name);
 				Log.d("DISPLAY", "Getting URL...");
 				InputStream content = (InputStream)url.getContent();
 				Log.d("DISPLAY", "Creating Drawable from InputStream...");
 				Drawable d = Drawable.createFromStream(content , "src");
-				LinearLayout lv = new LinearLayout(this);
 				if(p.title != ""){
+					Log.d("DISPLAY", "Creating TextView...");
 					TextView titlev = new TextView(this);
+					Log.d("DISPLAY", "setting text: "+p.title);
+					titlev.setText(p.title);
+					Log.d("DISPLAY","Addingviewto linear layout");
 					lv.addView(titlev);
 				}
+				Log.d("DISPLAY", "Creating imageview");
 				ImageView im = new ImageView(this);
+				Log.d("DISPLAY", "Adding view...");
 				lv.addView(im);
 				//=====================
-				ImageView img = (ImageView) findViewById(R.id.postImage);
-				img.setMinimumHeight(p.urls.stream.h);
-				img.setMinimumWidth(p.urls.stream.w);
+				im.setMinimumHeight(p.urls.stream.h);
+				im.setMinimumWidth(p.urls.stream.w);
 				Log.d("DISPLAY", "Setting Image...");
-				img.setImageDrawable(d);
+				im.setImageDrawable(d);
 			}
 			catch(Exception e){
-				Log.e("DISPLAY", "Error");
+				Log.e("DISPLAY", "Error: "+e.getMessage());
 			}
 		}
+		this.setContentView(l);
 	}
 	
 	public void displayOne(int i){
@@ -136,18 +150,15 @@ public class GroupViewActivity extends Activity {
 			InputStream content = (InputStream)url.getContent();
 			Log.d("DISPLAY", "Creating Drawable from InputStream...");
 			Drawable d = Drawable.createFromStream(content , "src");
-			ImageView img = (ImageView) findViewById(R.id.postImage);
+			/*ImageView img = (ImageView) findViewById(R.id.postImage);
 			img.setMinimumHeight(p.urls.stream.h);
 			img.setMinimumWidth(p.urls.stream.w);
 			Log.d("DISPLAY", "Setting Image...");
 			img.setImageDrawable(d);
+			*/
 		}
 		catch(Exception e){
 			Log.e("IMG","Exception: "+e.getMessage());
 		}
-	}
-	public void generateWidgets(){
-		
-		LinearLayout lv = new LinearLayout(this);
 	}
 }
