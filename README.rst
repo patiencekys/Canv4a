@@ -6,4 +6,4 @@ Description
 ~~~~~~~~~~~
 Canv4a is a Android application to access http://canv.as/ from your mobile phone.
 
-Project just started.
+Project just started, but an early prototype is available.

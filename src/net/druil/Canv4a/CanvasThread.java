@@ -44,7 +44,7 @@ public class CanvasThread {
 					for(int j=0; j<posts.get(i).replies.size(); j++) { // then go through all the replies
 						// and we get the reply, which is a new CanvasPost Object,
 						// Construct it, and add it to this.posts
-						String url = Canv4aActivity.baseURL + posts.get(i).replies.get(j).api_url;
+						String url = posts.get(i).replies.get(j).api_url;
 						Log.v("API", "Post URL: "+url);
 						try {
 							Log.d("API", "Getting a post...");

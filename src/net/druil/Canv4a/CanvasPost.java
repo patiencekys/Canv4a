@@ -33,7 +33,8 @@ public class CanvasPost {
 			public img(int h, int w, String name){
 				this.h = h;
 				this.w = w;
-				this.name = name;
+				this.name = "http://canv.as/ugc/"+name;
+				Log.d("img", "name: "+this.name);
 			}
 		}
 		
@@ -57,7 +58,7 @@ public class CanvasPost {
 						);
 			}
 			catch(JSONException e){
-				
+				Log.e("ImgURLs","Error while getting images: "+e.getMessage());
 			}
 		}
 	}
@@ -79,7 +80,7 @@ public class CanvasPost {
 		}
 		
 		public Reply(String api_url, int timestamp, String id){
-			this.api_url = api_url;
+			this.api_url = Canv4aActivity.https2http(api_url);
 			this.timestamp = timestamp;
 			this.id = id;
 		}
@@ -116,12 +117,13 @@ public class CanvasPost {
 	public CanvasPost(JSONObject j){
 		try {
 			Log.d("CanvasPost", "Beginning construction from JSONObject...");
-			api_url = new String(j.getString("api_url"));
-			url = new String(j.getString("url"));
+			api_url = new String(Canv4aActivity.https2http(j.getString("api_url")));
+			url = new String(Canv4aActivity.https2http(j.getString("url")));
 			timestamp = new Integer(j.getInt("timestamp"));
 			thread_op_id = new String(j.getString("thread_op_id"));
 			id = new String(j.getString("id"));
 			category = new String(j.getString("category"));
+			Log.d("CanvasPost", "post title = "+j.getString("title"));
 			title = new String(j.getString("title"));
 			author_name = new String(j.getString("author_name"));
 			Log.d("CanvasPost","Getting images urls...");

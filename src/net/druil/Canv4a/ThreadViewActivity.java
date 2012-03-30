@@ -13,7 +13,8 @@ import android.os.Bundle;
  *
  */
 public class ThreadViewActivity extends Activity {
-	protected String baseGroupURL = Canv4aActivity.baseURL+"public_api/groups/";
+	protected String baseGroupURL;
+	protected String op_id;
 	
 	/* (non-Javadoc)
 	 * @see android.app.Activity#onCreate(android.os.Bundle)
@@ -22,6 +23,8 @@ public class ThreadViewActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
         setContentView(R.layout.thread);
+        baseGroupURL = Canv4aActivity.baseURL+"public_api/groups/";
+        op_id = getIntent().getExtras().getString("POSTID");
 	}
 	
 	protected void createPostContainer(){
