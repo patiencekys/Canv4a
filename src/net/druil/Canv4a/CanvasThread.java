@@ -2,6 +2,13 @@ package net.druil.Canv4a;
 
 import java.util.LinkedList;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.util.EntityUtils;
+import org.json.JSONObject;
+
+import android.util.Log;
+
 /**
  * Represents a Canvas thread
  * @author Paul
@@ -32,16 +39,34 @@ public class CanvasThread {
 			String op_id = posts.get(0).thread_op_id;
 			if(posts.get(0).id == op_id) { //if the first element is really the OP
 				//then get all in response
+				Log.d("CanvasThread", "posts[0] is OP");
 				for(int i=0; i<posts.size(); i++) { // we go through all the posts
 					for(int j=0; j<posts.get(i).replies.size(); j++) { // then go through all the replies
 						// and we get the reply, which is a new CanvasPost Object,
 						// Construct it, and add it to this.posts
+						String url = Canv4aActivity.baseURL + posts.get(i).replies.get(j).api_url;
+						Log.v("API", "Post URL: "+url);
+						try {
+							Log.d("API", "Getting a post...");
+							HttpResponse getResponse = Canv4aActivity.clt.execute(new HttpGet(url));
+							String resp = EntityUtils.toString(getResponse.getEntity());
+							JSONObject res = new JSONObject(resp);
+							
+							CanvasPost p = new CanvasPost(res);
+							posts.add(p);
+						}
+						catch(Exception e){
+							Log.e("API", "Exception occured: "+e.getMessage());
+						}
 					}
 				}
 			}
 			else {
 				// then we must request the OP
 			}
+		}
+		else {
+			Log.w("CanvasThread", "Can not get entire thread! No post given.");
 		}
 		
 	}

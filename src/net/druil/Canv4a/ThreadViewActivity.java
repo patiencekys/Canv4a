@@ -3,10 +3,13 @@
  */
 package net.druil.Canv4a;
 
+import java.util.LinkedList;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -20,10 +23,8 @@ import android.widget.TextView;
  *
  */
 public class ThreadViewActivity extends Activity {
-
-	private DefaultHttpClient clt = new DefaultHttpClient();
 	private JSONObject res;
-	private String baseURL = "http://canv.as/public_api/groups/";
+	protected String baseGroupURL = Canv4aActivity.baseURL+"public_api/groups/";
 	
 	/* (non-Javadoc)
 	 * @see android.app.Activity#onCreate(android.os.Bundle)
@@ -32,20 +33,18 @@ public class ThreadViewActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
         setContentView(R.layout.thread);
-        Log.d("API", "Trying to get CHANNEL from bundle...");
-        String url = baseURL+getIntent().getExtras().getString("CHANNEL");
-        Log.d("API","OK "+ url);
         try {
-			HttpResponse getResponse = clt.execute(new HttpGet(url));
+			HttpResponse getResponse = Canv4aActivity.clt.execute(new HttpGet(url));
 			String resp = EntityUtils.toString(getResponse.getEntity());
 			res = new JSONObject(resp);
 			try{
-				JSONObject posts = new JSONObject(res.getJSONArray("posts").toString());
+				JSONArray posts = res.getJSONArray("posts");
 				Log.d("API","================");
 				Log.d("API","posts:"+posts.toString());
 				Log.d("API","================");
 				TextView g = (TextView) findViewById(R.id.Logresult);
 				g.setText(posts.toString());
+				
 			}
 			catch(JSONException e){
 				Log.w("API","JSONException");
@@ -78,15 +77,6 @@ public class ThreadViewActivity extends Activity {
 		 * must return a post list in a thread.
 		 */
 		return null;
-	}
-	
-	/* (non-Javadoc)
-	 * @see android.app.Activity#onDestroy()
-	 */
-	@Override
-	protected void onDestroy() {
-		// TODO Auto-generated method stub
-		super.onDestroy();
 	}
 	
 	
