@@ -34,10 +34,12 @@ public class CanvasThread {
 	 * Gets the entire thread from one CanvasPost
 	 */
 	public void getEntireThread(){
+		Log.d("CanvasThread", "Entering getEntireThread()");
 		// This will complete the tread from the first given element
 		if(posts.size()>=1){
+			Log.d("CanvasThread", "posts.size()>=1");
 			String op_id = posts.get(0).thread_op_id;
-			if(posts.get(0).id == op_id) { //if the first element is really the OP
+			if(posts.get(0).id.equals(op_id)) { //if the first element is really the OP
 				//then get all in response
 				Log.d("CanvasThread", "posts[0] is OP");
 				for(int i=0; i<posts.size(); i++) { // we go through all the posts
@@ -63,6 +65,7 @@ public class CanvasThread {
 			}
 			else {
 				// then we must request the OP
+				Log.d("CanvasThread", "Given post id is not OP");
 			}
 		}
 		else {
