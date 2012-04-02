@@ -22,6 +22,7 @@
         <activity android:name=".ThreadViewActivity"></activity>
         <activity android:name=".GroupViewActivity" android:permission="android.permission.INTERNET"></activity>
         <activity android:name=".ImageViewActivity"></activity>
+        <activity android:name=".PreferencesActivity"></activity>
     </application>
 
 </manifest>

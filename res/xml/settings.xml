@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen
   xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:selectable="false" android:title="Channels" android:enabled="true">
+        <EditTextPreference android:title="Add channels here" android:enabled="true" android:key="EditChannel"></EditTextPreference>
+        
+    </PreferenceCategory>
     
 </PreferenceScreen>

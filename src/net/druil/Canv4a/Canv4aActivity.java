@@ -41,7 +41,7 @@ public class Canv4aActivity extends Activity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// TODO Auto-generated method stub
 		MenuInflater inf = getMenuInflater();
-		inf.inflate(R.id.settings, menu);
+		inf.inflate(R.xml.menu, menu);
 		return super.onCreateOptionsMenu(menu);
 	}
 
@@ -51,6 +51,11 @@ public class Canv4aActivity extends Activity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// TODO Auto-generated method stub
+		switch (item.getItemId()) {
+	        case R.id.settings:
+	            startActivity(new Intent(this, PreferencesActivity.class));
+	            return true;
+		}
 		return super.onOptionsItemSelected(item);
 	}
 
