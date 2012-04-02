@@ -37,6 +37,7 @@ public class ImageViewActivity extends Activity {
 			String resp = EntityUtils.toString(getResponse.getEntity());
 			JSONObject res = new JSONObject(resp);
 			p = new CanvasPost(res);
+			createUI();
 		}
 		catch(Exception e){
 			Log.d("ImageViewActivity", "Exception: "+e.getMessage());
@@ -65,10 +66,12 @@ public class ImageViewActivity extends Activity {
 				i.setMinimumWidth(p.urls.orig.w);
 				Log.d("DISPLAY", "Setting Image...");
 				i.setImageDrawable(d);
+				Log.d("DISPLAY", "Done");
 			}
 			catch(Exception e){
 				Log.d("ImageViewActivity", "Exception: "+e.getMessage());
 			}
 		}
+		setContentView(v);
 	}
 }
