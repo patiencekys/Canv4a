@@ -99,6 +99,8 @@ public class CanvasPost {
 	public String caption;
 	public ImgURLs urls;
 	public LinkedList<Reply> replies;
+	public String top_sticker_name;
+	public int top_sticker_nb;
 	
 	public CanvasPost(){
 		api_url = null;
@@ -114,6 +116,8 @@ public class CanvasPost {
 		caption = null;
 		urls = null;
 		replies = new LinkedList<Reply>();
+		top_sticker_name = null;
+		top_sticker_nb = 0;
 	}
 	
 	public CanvasPost(JSONObject j){
@@ -145,7 +149,10 @@ public class CanvasPost {
 								)
 						);
 			}
-					
+			Log.v("CanvasPost", "Getting images top_sticker info...");
+			top_sticker_name = (j.getJSONObject("top_sticker")).getString("name");
+			top_sticker_nb = (j.getJSONObject("top_sticker")).getInt("count");
+			
 			Log.d("CanvasPost", "Construction successfull");
 		}
 		catch(JSONException e){
