@@ -47,6 +47,7 @@ public class GroupViewActivity extends Activity {
 			HttpResponse getResponse = Canv4aActivity.clt.execute(new HttpGet(groupURL));
 			String resp = EntityUtils.toString(getResponse.getEntity());
 			JSONObject res = new JSONObject(resp);
+			JSONObject top_sticker;
 			JSONArray j_posts = res.getJSONArray("posts");
 			Log.v("CORE", "Entering group posts fetching");
 			for(int i=0; i < j_posts.length(); i++){
@@ -63,8 +64,7 @@ public class GroupViewActivity extends Activity {
 					String resp_p = EntityUtils.toString(response.getEntity());
 					Log.v("CORE", "Converting string to JSONObject");
 					res_p = new JSONObject(resp_p);
-
-					Log.v("CORE", "Constructing CanvasPost object");
+					Log.v("CORE", "Getting  top_sticker from JSONObject");
 					CanvasPost p = new CanvasPost(res_p);
 					Log.v("CORE","Reading P...");
 					Log.v("CORE","P: "+p.category);
@@ -136,6 +136,8 @@ public class GroupViewActivity extends Activity {
 						TextView titlev = new TextView(this);
 						Log.d("DISPLAY", "setting title text: "+p.title);
 						titlev.setText(p.title);
+						Log.d("DISPLAY", "setting top_sticker text: "+p.top_sticker_name);
+						titlev.setText(p.top_sticker_name);
 						Log.d("DISPLAY", "Settings text size to 20...");
 						titlev.setTextSize(20);
 						Log.d("DISPLAY", "Settings text color to BLACK...");
@@ -185,6 +187,8 @@ public class GroupViewActivity extends Activity {
 						TextView titlev = new TextView(this);
 						Log.d("DISPLAY", "setting caption text: "+p.title);
 						titlev.setText(p.title);
+						Log.d("DISPLAY", "setting top_sticker text: "+p.top_sticker_name);
+						titlev.setText(p.top_sticker_name);
 						Log.d("DISPLAY", "Settings text size to 20...");
 						titlev.setTextSize(10);
 						Log.d("DISPLAY", "Settings text color to BLACK...");
